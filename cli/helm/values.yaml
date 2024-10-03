@@ -1,0 +1,17 @@
+kubernetesClusterDomain: cluster.local
+backend:
+  service:
+    type: LoadBalancer
+    ports:
+      http: 80
+  replicas: 1
+  db:
+    servername: servername
+    dbname: dbname
+    schemaname: schemaname
+    password: password
+  image:
+    repository: test-cli
+    tag: release
+  env:
+    CONTAINERIZED_APP_MESSAGE: This is standard message

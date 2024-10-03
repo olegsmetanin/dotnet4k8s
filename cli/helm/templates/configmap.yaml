@@ -1,0 +1,8 @@
+# for pod`s enviroment variables
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-cli-cm
+  namespace: {{ .Release.Namespace | quote }}
+data:
+  CONTAINERIZED_APP_MESSAGE: {{ .Values.backend.env.CONTAINERIZED_APP_MESSAGE }}

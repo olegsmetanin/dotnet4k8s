@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "test-svc.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+  {{- include "test-svc.labels" . | nindent 4 }}
+  annotations:
+    # for ingress-nginx (https://github.com/kubernetes/ingress-nginx)
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+    # for nginx-ingress in DIO (https://docs.nginx.com/nginx-ingress-controller/technical-specifications/#supported-kubernetes-versions)
+    nginx.org/client-max-body-size: 10m
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: {{ .Values.backend.host }}
+    http:
+      paths:
+      {{ range $path := .Values.backend.paths }}
+      - path: {{ $path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "test-svc.fullname" $ }}
+            port:
+              number: 8080
+      {{ end }}
+  {{- if .Values.backend.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ (tpl .Values.backend.host .) | quote }}
+      secretName: {{ printf "%s-tls" (tpl .Values.backend.host .) }}
+  {{- end }}

@@ -1,0 +1,23 @@
+kubernetesClusterDomain: cluster.local
+backend:
+  host: api.project.local
+  paths:
+    - /
+  service:
+    type: NodePort
+    ports:
+      http: 8080
+  ingress:
+    class: nginx
+    tls: false
+  replicas: 1
+  db:
+    servername: servername
+    dbname: dbname
+    schemaname: schemaname
+    password: password
+  image:
+    repository: test-svc
+    tag: release
+  env:
+    CONTAINERIZED_APP_MESSAGE: This is standard message

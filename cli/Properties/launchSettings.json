@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "cli": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\o.smetanin\\dev\\dotnet4k8s\\cli"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    },
+    "WSL": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\o.smetanin\\dev\\dotnet4k8s\\cli"
+    }
+  }
+}

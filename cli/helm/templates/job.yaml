@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "test-cli.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+  {{- include "test-cli.labels" . | nindent 4 }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: test-cli
+        image: {{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag
+          | default .Chart.AppVersion }}
+        resources: {}
+        envFrom:
+          - configMapRef:
+              name: test-cli-cm
+          - secretRef:
+              name: test-cli-secret
+      restartPolicy: Never
+      imagePullPolicy: Always
+      nodeSelector:
+        kubernetes.io/os: linux
